@@ -42,7 +42,20 @@ async def on_message(message):
         jurgens[message.author.id] = [0]
     
     if str(message.type) == "MessageType.new_member":
-        await message.channel.send(f"Welcome {message.author.name}")
+        await message.channel.send(f"{message.author.name}, you're welcome to the Magnus Institute")
+        statementBegins = open(r"Stickers/15.webp", "rb")
+        #archivist.send_chat_action(message.chat.id, "typing")
+        time.sleep(1)
+        await message.channel.send("The name in Jonathan Sims")
+        #archivist.send_chat_action(message.chat.id, "typing")
+        time.sleep(2)
+        await message.channel.send("Head Archivist of the Magnus Institute")
+        #archivist.send_chat_action(message.chat.id, "typing")
+        time.sleep(2)
+        await message.channel.send("London")
+        #archivist.send_chat_action(message.chat.id, "typing")
+        time.sleep(2)
+        await message.channel.send(file=discord.File(statementBegins))
         return
 
     if message.content.startswith('/greet'):
