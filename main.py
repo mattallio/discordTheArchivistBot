@@ -15,7 +15,7 @@ smites = [["Ceaseless Watcher!", "See this lie, this golden strand of falsehood"
 ["Ceaseless Watcher!", "Turn your gaze upon this wretched thing"], ["Ceaseless Watcher!", "Turn your gaze upon this thing and drink", "Your", "Fill"], 
 ["Ceaseless Watcher!", "Gaze upon this thing, this lost and broken splinter of fear", "Take what is left of it as your own and leave no trace of it behind", "It", "Is", "Yours"]
 ]
-SWEARSMAX = 2
+SWEARSMAX = 10
 jurgens = {}
 
 def countFolder(commandFolder):
