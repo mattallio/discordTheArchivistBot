@@ -1,4 +1,7 @@
-import discord, random, time, os
+import discord
+import random
+import time
+import os
 import pandas as pd
 from keep_alive import keep_alive
 
