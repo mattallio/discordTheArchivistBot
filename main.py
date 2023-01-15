@@ -43,7 +43,7 @@ def checkSticker(message):
     stickerNum = 1
     for title in titles:
         for word in message.split():
-            if len(word)>2 and word.upper() in title.split():
+            if len(word)>3 and word.upper() in title.split():
                 return stickerNum
         stickerNum += 1
     return stickerNum
