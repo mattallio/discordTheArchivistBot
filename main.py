@@ -126,9 +126,9 @@ async def on_message(message):
         await message.channel.send(file = discord.File(sticker))
         sticker.close()
 
-    for word in message.content.split():
-        swears = (open("swears.txt", "r")).read()
-        swears = swears.split("\n")
+    swears = (open("swears.txt", "r")).read()
+    swears = swears.split("\n")
+    for word in message.content.split():    
         if word.upper() in swears:
             jurgens[message.author.id][0] += 1
             if jurgens[message.author.id][0] == SWEARSMAX:
@@ -178,6 +178,7 @@ async def on_message(message):
                         #archivist.send_chat_action(message.chat.id, "typing")
                         time.sleep(2)
                         await message.channel.send(smites[randomNum][i])
+    swears.close()
 
 if __name__ == "__main__":
     TOKEN = os.environ['TOKEN']
