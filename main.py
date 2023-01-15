@@ -36,6 +36,7 @@ def schedule_checker():
         time.sleep(1)
 
 def emptyJurgens():
+    global jurgens
     jurgens = {}
 
 @client.event
@@ -126,8 +127,8 @@ async def on_message(message):
         await message.channel.send(file = discord.File(sticker))
         sticker.close()
 
-    swearsFile = (open("swears.txt", "r")).read()
-    swears = swearsFile.split("\n")
+    swearsFile = open("swears.txt", "r")
+    swears = (swearsFile.read()).split("\n")
     swearsFile.close()
     for word in message.content.split():    
         if word.upper() in swears:
