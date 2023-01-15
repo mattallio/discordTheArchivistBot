@@ -45,8 +45,7 @@ def checkSticker(message):
         for word in message.split():
             if len(word)>2 and word.upper() in title.split():
                 return stickerNum
-            else:
-                stickerNum += 1
+        stickerNum += 1
     return stickerNum
 
 @client.event
