@@ -39,6 +39,16 @@ def emptyJurgens():
     global jurgens
     jurgens = {}
 
+def checkSticker(message):
+    stickerNum = 1
+    for title in titles:
+        for word in message.split():
+            if len(word)>2 and word.upper() in title.split():
+                return stickerNum
+            else:
+                stickerNum += 1
+    return stickerNum
+
 @client.event
 async def on_ready():
     print(f"Logged in as {client.user}")
@@ -115,13 +125,7 @@ async def on_message(message):
         await message.channel.send(helpMessage.read())
         helpMessage.close()
 
-    stickerNum = 1
-    for title in titles:
-        for word in message.content.split():
-            if word.upper() in title.split() and len(word)>2:
-                break
-            else:
-                stickerNum += 1
+    stickerNum = checkSticker(message.content)
     if stickerNum <= countFolder(r"Stickers")-1:
         sticker = open(fr"Stickers/{stickerNum}.webp", "rb")
         await message.channel.send(file = discord.File(sticker))
