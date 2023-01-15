@@ -118,7 +118,7 @@ async def on_message(message):
     stickerNum = 1
     for title in titles:
         for word in message.content.split():
-            if word.upper() in title and len(word)>2:
+            if word.upper() in title.split() and len(word)>2:
                 break
             else:
                 stickerNum += 1
