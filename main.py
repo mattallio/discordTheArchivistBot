@@ -2,7 +2,9 @@ import discord
 import random
 import time
 import os
+import schedule
 import pandas as pd
+from threading import Thread
 from keep_alive import keep_alive
 
 intents=discord.Intents.default()
@@ -28,6 +30,14 @@ def countFolder(commandFolder):
       if os.path.isfile(os.path.join(dir_path, path)):
          count += 1
    return count
+
+def schedule_checker():
+    while True:
+        schedule.run_pending()
+        time.sleep(1)
+
+def emptyJurgens():
+    jurgens = {}
 
 @client.event
 async def on_ready():
@@ -107,10 +117,11 @@ async def on_message(message):
 
     stickerNum = 1
     for title in titles:
-        if message.content.upper() in title:
-            break
-        else:
-            stickerNum += 1
+        for word in message.content.split():
+            if word.upper() in title and len(word)>2:
+                break
+            else:
+                stickerNum += 1
     if stickerNum <= countFolder(r"Stickers")-1:
         sticker = open(fr"Stickers/{stickerNum}.webp", "rb")
         await message.channel.send(file = discord.File(sticker))
@@ -169,5 +180,7 @@ async def on_message(message):
 
 if __name__ == "__main__":
     TOKEN = os.environ['TOKEN']
+    schedule.every().day.at(TIME).do(emptyJurgens)
+    Thread(target=schedule_checker).start() 
     keep_alive()
     client.run(TOKEN)
