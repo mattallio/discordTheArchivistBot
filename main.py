@@ -181,7 +181,7 @@ async def on_message(message):
 
 if __name__ == "__main__":
     TOKEN = os.environ['TOKEN']
-    schedule.every().day.at("8:00").do(emptyJurgens)
+    schedule.every().day.at("08:00").do(emptyJurgens)
     Thread(target=schedule_checker).start() 
     keep_alive()
     client.run(TOKEN)
