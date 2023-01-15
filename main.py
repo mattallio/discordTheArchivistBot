@@ -131,7 +131,7 @@ async def on_message(message):
     swears = (swearsFile.read()).split("\n")
     swearsFile.close()
     for word in message.content.split():    
-        if word.upper() in swears:
+        if word.lower() in swears:
             jurgens[message.author.id][0] += 1
             if jurgens[message.author.id][0] == SWEARSMAX:
                 await message.author.edit(nick = "Jurgen Leitner")
