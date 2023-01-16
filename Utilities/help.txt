@@ -7,4 +7,4 @@
 
 The Archivist will not allow swearing in his institute, try at your own risk
 
-If you say a word that's also a sticker, The Archivist will know and send the relative sticker
+If you type "/" followed by a word that's also a sticker, The Archivist will send the relative sticker
