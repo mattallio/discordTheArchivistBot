@@ -40,6 +40,7 @@ def emptyJurgens():
     jurgens = {}
 
 def checkSticker(message):
+    message = message[1:]
     stickerNum = 1
     for title in titles:
         for word in message.split():
@@ -124,11 +125,12 @@ async def on_message(message):
         await message.channel.send(helpMessage.read())
         helpMessage.close()
 
-    stickerNum = checkSticker(message.content)
-    if stickerNum <= countFolder(r"Stickers")-1:
-        sticker = open(fr"Stickers/{stickerNum}.webp", "rb")
-        await message.channel.send(file = discord.File(sticker))
-        sticker.close()
+    if message.content.startswith("/"):
+        stickerNum = checkSticker(message.content)
+        if stickerNum <= countFolder(r"Stickers")-1:
+            sticker = open(fr"Stickers/{stickerNum}.webp", "rb")
+            await message.channel.send(file = discord.File(sticker))
+            sticker.close()
 
     swearsFile = open("swears.txt", "r")
     swears = (swearsFile.read()).split("\n")
