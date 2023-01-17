@@ -191,5 +191,10 @@ if __name__ == "__main__":
     TOKEN = os.environ['TOKEN']
     schedule.every().day.at("08:00").do(emptyJurgens)
     Thread(target=schedule_checker).start() 
-    keep_alive()
-    client.run(TOKEN)
+    try:
+        keep_alive()
+        client.run(TOKEN)
+    except discord.errors.HTTPException:
+        print("\n\n\nBLOCKED BY RATE LIMITS\nRESTARTING NOW\n\n\n")
+        system("python restarter.py")
+        system('kill 1')
