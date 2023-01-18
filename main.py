@@ -196,5 +196,5 @@ if __name__ == "__main__":
         client.run(TOKEN)
     except discord.errors.HTTPException:
         print("\n\n\nBLOCKED BY RATE LIMITS\nRESTARTING NOW\n\n\n")
-        system("python restarter.py")
-        system('kill 1')
+        os.system("python3 restarter.py")
+        os.system('kill 1')
