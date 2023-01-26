@@ -66,6 +66,7 @@ def checkSticker(message):
 async def on_ready():
     print(f"Logged in as {client.user}")
 
+@client.event
 async def jurgenRant(message):
     await message.reply("JURGEN LEITNER?")
     time.sleep(1)
