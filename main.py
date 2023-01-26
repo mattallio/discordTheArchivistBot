@@ -66,7 +66,6 @@ def checkSticker(message):
 async def on_ready():
     print(f"Logged in as {client.user}")
 
-@client.event
 async def jurgenRant(message):
     await message.reply("JURGEN LEITNER?")
     time.sleep(1)
@@ -143,21 +142,21 @@ async def on_message(message):
         await message.channel.send(file=discord.File(statementBegins))
         return
     
-    if message.content == "/sticker":
+    if "/sticker" in message.content:
         randomNum = random.randint(1, len(titles))
         sticker = open(rf"Stickers/{randomNum}.webp", "rb")
         await message.channel.send(file = discord.File(sticker))
         sticker.close()
         return
 
-    if message.content == "/fandom":
+    if "/fandom" in message.content:
         randomNum = random.randint(1, countFolder("Fandompics"))
         fandomPic = open(rf"Fandompics/{randomNum}.jpg", "rb")
         await message.channel.send(file = discord.File(fandomPic))
         fandomPic.close()
         return
 
-    if message.content == "/lies":
+    if "/lies" in message.content:
         await message.channel.send(smites[0][0])
         for i in range(1, len(smites[0])):
             if smites[0][i] == "It" or smites[0][i] == "Is" or smites[0][i] == "Yours":
@@ -170,9 +169,9 @@ async def on_message(message):
                 await message.channel.send(smites[0][i])
 
     if "/avatar of the whore" in message.content:
-        jurgenRant(message)
+        await jurgenRant(message)
 
-    if message.content == "/help":
+    if "/help" in message.content:
         helpMessage = open(r"Utilities/help.txt", "r")
         await message.channel.send(helpMessage.read())
         helpMessage.close()
@@ -209,7 +208,7 @@ async def on_message(message):
                 jurgens[message.author.id][0] += 1
                 if jurgens[message.author.id][0] == SWEARSMAX:
                     await message.author.edit(nick = "Jurgen Leitner")
-                    jurgenRant(message)
+                    await jurgenRant(message)
                     jurgens[message.author.id][0] = 0
                 else:
                     randomNum = random.randint(0, len(smites)-1)
