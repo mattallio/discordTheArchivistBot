@@ -66,7 +66,12 @@ def checkSticker(message):
 async def on_ready():
     print(f"Logged in as {client.user}")
 
+#the archivist spits hate towards a specific target (default=jurgein leitner)
 async def jurgenRant(message, victim):
+    victimSplitted = victim.split(" ")
+    victimNoSpace = ""
+    for el in victimSplitted:
+        victimNoSpace = victimNoSpace + el[0].upper() + el[1:].lower()
     await message.reply(f"{victim.upper()}?")
     time.sleep(1)
     await message.channel.send(f"STUPID IDIOT MOTHERFUCKING {victim.upper()} GOD DAMN FOOL BOOK COLLECTING DUST EATING RAT OLD BASTARD SHITHEAD IDIOT AVATAR OF THE WHORE BIGGEST CLOWN IN THE CIRCUS LAUGHED OUT OF TOWN COWBOY MOTHERFUCKING {victim.upper()}")
@@ -83,7 +88,7 @@ async def jurgenRant(message, victim):
     time.sleep(1)
     await message.channel.send("BETTER have had a book make him kill a man cuz if he didnt Im going to make him")
     time.sleep(1)
-    await message.channel.send(f"paypal.com/IFuckingHate{victim.upper()}")
+    await message.channel.send(f"paypal.com/IFuckingHate{victimNoSpace}")
     time.sleep(1)
     await message.channel.send("episodes not even about him. vaguely mentioned what is supposed to maybe be his library and I lost it")
     time.sleep(1)
@@ -99,16 +104,19 @@ async def jurgenRant(message, victim):
     time.sleep(1)
     await message.channel.send("everyday once a year i will see it and do anything but pay respects to the man who had so many fucked up if true books")
 
-
+#here are all the bot's command and features
 @client.event
 async def on_message(message):
 
+    #the archivist doesn't answer to its own messages
     if message.author == client.user:
         return
     
+    #initializes every member of the chat to the bad list, just in case
     if message.author.id not in jurgens:
         jurgens[message.author.id] = [0]
     
+    #the archivist greets a new member
     if str(message.type) == "MessageType.new_member":
         await message.channel.send(f"{message.author.name}, you're welcome to the Magnus Institute")
         statementBegins = open(r"Stickers/15.webp", "rb")
@@ -126,6 +134,7 @@ async def on_message(message):
         await message.channel.send(file=discord.File(statementBegins))
         return
 
+    #the archivist introduces himself
     if "/greet" in message.content:
         statementBegins = open(r"Stickers/15.webp", "rb")
         #archivist.send_chat_action(message.chat.id, "typing")
@@ -141,18 +150,21 @@ async def on_message(message):
         time.sleep(2)
         await message.channel.send(file=discord.File(statementBegins))
     
+    #the archivist sends a random sticker
     if "/sticker" in message.content:
         randomNum = random.randint(1, len(titles))
         sticker = open(rf"Stickers/{randomNum}.webp", "rb")
         await message.channel.send(file = discord.File(sticker))
         sticker.close()
 
+    #the archivist sends a random fandom pic
     if "/fandom" in message.content:
         randomNum = random.randint(1, countFolder("Fandompics"))
         fandomPic = open(rf"Fandompics/{randomNum}.jpg", "rb")
         await message.channel.send(file = discord.File(fandomPic))
         fandomPic.close()
 
+    #the archivist simtes the the liar
     if "/lies" in message.content:
         await message.channel.send(smites[0][0])
         for i in range(1, len(smites[0])):
@@ -165,14 +177,29 @@ async def on_message(message):
                 time.sleep(2)
                 await message.channel.send(smites[0][i])
 
+    #the archivist spits hate towards juergein leitner
     if "/avatar of the whore" in message.content:
         await jurgenRant(message, "jurgein leitner")
 
+    if "/obliterate" in message.content:
+        victimList = (message.content).split(" ")
+        victimList = victimList[(victimList.index("/obliterate")+1):]
+        victim = ""
+        for name in victimList:
+            if victim == "":
+                victim = name
+            else: 
+                victim += " " + name
+        if victim != "":
+            await jurgenRant(message, victim)
+
+    #the archivist shows off with his abilities
     if "/help" in message.content:
         helpMessage = open(r"Utilities/help.txt", "r")
         await message.channel.send(helpMessage.read())
         helpMessage.close()
 
+    #command to send a sticker specified after "/"
     if "/" in message.content:
         messageText = message.content
         index = messageText.index("/")
@@ -196,6 +223,7 @@ async def on_message(message):
             sticker.close()
             timer.append(message.channel)
 
+    #the archivist checks if in the message there is any swear and if so will proceed to smite the user while taking note of his bad behaviour
     swearsFile = open("swears.txt", "r")
     swears = (swearsFile.read()).split("\n")
     swearsFile.close()
