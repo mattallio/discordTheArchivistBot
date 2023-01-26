@@ -13,14 +13,20 @@ intents.members = True
 
 client = discord.Client(intents=intents)
 
+#opens the sticker file
 stickerNumber = pd.read_excel(r"Stickers/0-sticker-to-number.xlsx")
 titles = stickerNumber.Titles
+#list of all the smites used by the archivist
 smites = [["Ceaseless Watcher!", "See this lie, this golden strand of falsehood", "Take it in your gaze and pull it, follow through its curves and twists and knots as it unravels all before you", " Unweave it now, its fear and its falsehood, its hidden teeth and the ones it wears so proudly", "Take all that it is and all that it has", "It", "Is", "Yours"],
 ["Ceaseless Watcher!", "Turn your gaze upon this wretched thing"], ["Ceaseless Watcher!", "Turn your gaze upon this thing and drink", "Your", "Fill"], 
 ["Ceaseless Watcher!", "Gaze upon this thing, this lost and broken splinter of fear", "Take what is left of it as your own and leave no trace of it behind", "It", "Is", "Yours"]
 ]
+#tolerance of the archivist towards swearing
 SWEARSMAX = 10
+#bad archival assistants will be put in the jurgens dictionary and will be punished if persistent with the swearing
 jurgens = {}
+#list of chats where the archivist has sent a sticker in the recent past
+timer = []
 
 def countFolder(commandFolder):
    dir_path = fr'{commandFolder}'
@@ -30,17 +36,24 @@ def countFolder(commandFolder):
          count += 1
    return count
 
+#checks if any of the scheduled functions is to be run
 def schedule_checker():
     while True:
         schedule.run_pending()
         time.sleep(1)
 
+#the archivist forgives the bad archival assistants
 def emptyJurgens():
     global jurgens
-    jurgens = {}
+    jurgens.clear()
 
+#after 2 minutes the archivist can send a sticker based on the context again
+def emptyTimer():
+    global timer
+    timer.clear()
+
+#checks if a message sent by a user has a sticker reference
 def checkSticker(message):
-    message = message[1:]
     stickerNum = 1
     for title in titles:
         for word in message.split():
@@ -125,7 +138,23 @@ async def on_message(message):
         await message.channel.send(helpMessage.read())
         helpMessage.close()
 
-    if message.content.startswith("/"):
+    if "/" in message.content:
+        message = message.content
+        index = message.index("/")
+        message = message[index+1:]
+        if " " in message:
+            index2 = message.index(" ")
+            message = message[:index2]
+        stickerNum = checkSticker(message)
+        if stickerNum <= countFolder(r"Stickers")-1:
+            sticker = open(fr"Stickers/{stickerNum}.webp", "rb")
+            await message.channel.send(file = discord.File(sticker))
+            sticker.close()
+
+    #if the message.channel is in the timer list the archivist will not send a sticker every time a word that's in a sticker is said
+    #the timer list will be resetted every two minutes so that the archivist can send a sticker based on the context every 2 minutes
+    if message.channel not in timer:
+        timer.append(message.channel)
         stickerNum = checkSticker(message.content)
         if stickerNum <= countFolder(r"Stickers")-1:
             sticker = open(fr"Stickers/{stickerNum}.webp", "rb")
@@ -190,6 +219,7 @@ async def on_message(message):
 if __name__ == "__main__":
     TOKEN = os.environ['TOKEN']
     schedule.every().day.at("08:00").do(emptyJurgens)
+    schedule.every(2).minutes.do(emptyTimer)
     Thread(target=schedule_checker).start() 
     try:
         keep_alive()
