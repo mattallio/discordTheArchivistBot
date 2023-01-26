@@ -139,13 +139,13 @@ async def on_message(message):
         helpMessage.close()
 
     if "/" in message.content:
-        message = message.content
-        index = message.index("/")
-        message = message[index+1:]
-        if " " in message:
-            index2 = message.index(" ")
-            message = message[:index2]
-        stickerNum = checkSticker(message)
+        messageText = message.content
+        index = messageText.index("/")
+        messageText = messageText[index+1:]
+        if " " in messageText:
+            index2 = messageText.index(" ")
+            messageText = messageText[:index2]
+        stickerNum = checkSticker(messageText)
         if stickerNum <= countFolder(r"Stickers")-1:
             sticker = open(fr"Stickers/{stickerNum}.webp", "rb")
             await message.channel.send(file = discord.File(sticker))
