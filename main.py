@@ -140,21 +140,18 @@ async def on_message(message):
         #archivist.send_chat_action(message.chat.id, "typing")
         time.sleep(2)
         await message.channel.send(file=discord.File(statementBegins))
-        return
     
     if "/sticker" in message.content:
         randomNum = random.randint(1, len(titles))
         sticker = open(rf"Stickers/{randomNum}.webp", "rb")
         await message.channel.send(file = discord.File(sticker))
         sticker.close()
-        return
 
     if "/fandom" in message.content:
         randomNum = random.randint(1, countFolder("Fandompics"))
         fandomPic = open(rf"Fandompics/{randomNum}.jpg", "rb")
         await message.channel.send(file = discord.File(fandomPic))
         fandomPic.close()
-        return
 
     if "/lies" in message.content:
         await message.channel.send(smites[0][0])
