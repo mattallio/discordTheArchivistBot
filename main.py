@@ -8,7 +8,6 @@ import schedule
 import pandas as pd
 from threading import Thread
 from keep_alive import keep_alive
-from replit import db as sentCache
 
 intents=discord.Intents.default()
 intents.message_content = True
@@ -27,6 +26,8 @@ SWEARSMAX = 10
 jurgens = {}
 #list of chats where the archivist has sent a sticker in the recent past
 timer = []
+
+sentCache = {}
 
 def countFolder(commandFolder):
    dir_path = fr'{commandFolder}'
