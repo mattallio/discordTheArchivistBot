@@ -134,11 +134,11 @@ async def on_message(message):
 
     #the archivist doesn't answer to its own messages but takes note of which messages he has sent
     if message.author == client.user:
-        if message.channel.id in sentCache and len(sentCache[message.channel.id]) == 10:
-            sentCache[message.channel.id].pop(0)
-        if message.channel.id not in sentCache:
-            sentCache[message.channel.id] = []
-        sentCache[message.channel.id].append(message.id)
+        if str(message.channel.id) in sentCache and len(sentCache[str(message.channel.id)]) == 10:
+            sentCache[str(message.channel.id)].pop(0)
+        if str(message.channel.id) not in sentCache:
+            sentCache[str(message.channel.id)] = []
+        sentCache[str(message.channel.id)].append(message.id)
         return
     
     #initializes every member of the chat to the bad list, just in case
@@ -228,7 +228,7 @@ async def on_message(message):
             await jurgenRant(message, victim)
 
     #the archivist connects to a huggingface model and generates an answer to the message
-    if "ARCHIVIST" in message.content.upper() or (message.reference != None and message.reference.message_id in sentCache[message.channel.id]):
+    if "ARCHIVIST" in message.content.upper() or (message.reference != None and str(message.reference.message_id) in sentCache[str(message.channel.id)]):
         url = 'https://api-inference.huggingface.co/models/mattallio/Archivist-medium-dialoGPT'
         huggingToken = os.environ['HUGGINGFACE_TOKEN']
         headers = {
