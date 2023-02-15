@@ -15,7 +15,7 @@ client = discord.Client(intents=intents)
 
 #opens the sticker file
 stickerNumber = pd.read_excel(r"Stickers/0-sticker-to-number.xlsx")
-titles = stickerNumber.Titles
+words = stickerNumber.Titles
 #list of all the smites used by the archivist
 smites = [["Ceaseless Watcher!", "See this lie, this golden strand of falsehood", "Take it in your gaze and pull it, follow through its curves and twists and knots as it unravels all before you", " Unweave it now, its fear and its falsehood, its hidden teeth and the ones it wears so proudly", "Take all that it is and all that it has", "It", "Is", "Yours"],
 ["Ceaseless Watcher!", "Turn your gaze upon this wretched thing"], ["Ceaseless Watcher!", "Turn your gaze upon this thing and drink", "Your", "Fill"], 
@@ -55,9 +55,9 @@ def emptyTimer():
 #checks if a message sent by a user has a sticker reference
 def checkSticker(message):
     stickerNum = 1
-    for title in titles:
-        for word in message.split():
-            if len(word)>3 and word.upper() in title.split():
+    for word in words:
+        for wordMessage in message.split():
+            if len(wordMessage)>3 and wordMessage.upper() in word.split():
                 return stickerNum
         stickerNum += 1
     return stickerNum
