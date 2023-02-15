@@ -13,10 +13,6 @@ intents.members = True
 
 client = discord.Client(intents=intents)
 
-#opens the sticker file
-stickerNumber = pd.read_excel(r"Stickers/0-sticker-to-number.xlsx")
-words = stickerNumber.Words
-titles = stickerNumber.Titles
 #list of all the smites used by the archivist
 smites = [["Ceaseless Watcher!", "See this lie, this golden strand of falsehood", "Take it in your gaze and pull it, follow through its curves and twists and knots as it unravels all before you", " Unweave it now, its fear and its falsehood, its hidden teeth and the ones it wears so proudly", "Take all that it is and all that it has", "It", "Is", "Yours"],
 ["Ceaseless Watcher!", "Turn your gaze upon this wretched thing"], ["Ceaseless Watcher!", "Turn your gaze upon this thing and drink", "Your", "Fill"], 
@@ -54,13 +50,20 @@ def emptyTimer():
     timer.clear()
 
 #checks if a message sent by a user has a sticker reference
-def checkSticker(message):
+def checkSticker(message, type):
+    stickerNumber = pd.read_excel(r"Stickers/0-sticker-to-number.xlsx")
+    if type == "titles":
+        words = stickerNumber.Titles
+    elif type == "words":
+        words = stickerNumber.Words
     stickerNum = 1
     for word in words:
         for wordMessage in message.split():
             if len(wordMessage)>3 and wordMessage.upper() in word.split():
                 return stickerNum
         stickerNum += 1
+    del stickerNumber
+    del words
     return stickerNum
 
 @client.event
@@ -168,10 +171,14 @@ async def on_message(message):
     
     #the archivist sends a random sticker
     if "/sticker" in message.content:
+        stickerNumber = pd.read_excel(r"Stickers/0-sticker-to-number.xlsx")
+        titles = stickerNumber.Titles
         randomNum = random.randint(1, len(titles))
         sticker = open(rf"Stickers/{randomNum}.webp", "rb")
         await message.channel.send(file = discord.File(sticker))
         sticker.close()
+        del titles
+        del stickerNumber
 
     #the archivist sends a random fandom pic
     if "/fandom" in message.content:
@@ -223,7 +230,7 @@ async def on_message(message):
         if " " in messageText:
             index2 = messageText.index(" ")
             messageText = messageText[:index2]
-        stickerNum = checkSticker(messageText)
+        stickerNum = checkSticker(messageText, "titles")
         if stickerNum <= countFolder(r"Stickers")-1:
             sticker = open(fr"Stickers/{stickerNum}.webp", "rb")
             await message.channel.send(file = discord.File(sticker))
@@ -232,7 +239,7 @@ async def on_message(message):
     #if the message.channel is in the timer list the archivist will not send a sticker every time a word that's in a sticker is said
     #the timer list will be resetted every two minutes so that the archivist can send a sticker based on the context every 2 minutes
     if message.channel not in timer:
-        stickerNum = checkSticker(message.content)
+        stickerNum = checkSticker(message.content, "words")
         if stickerNum <= countFolder(r"Stickers")-1:
             sticker = open(fr"Stickers/{stickerNum}.webp", "rb")
             await message.channel.send(file = discord.File(sticker))
