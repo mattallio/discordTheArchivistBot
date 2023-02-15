@@ -224,7 +224,7 @@ async def on_message(message):
     #the archivist connects to a huggingface model and generates an answer to the message
     if "ARCHIVIST" in message.content.upper():
         url = 'https://api-inference.huggingface.co/models/mattallio/Archivist-medium-dialoGPT'
-        huggingToken = os.getenv['HUGGINGFACE_TOKEN']
+        huggingToken = os.environ['HUGGINGFACE_TOKEN']
         headers = {
             'Authorization': 'Bearer {}'.format(huggingToken)
         }
