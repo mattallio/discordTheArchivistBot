@@ -232,7 +232,10 @@ async def on_message(message):
         res = requests.request('POST', url, headers=headers, data=data)
         ret = json.loads(res.content.decode('UTF-8'))
         answer = ret.get('generated_text', None)
-        await message.reply(answer)
+        try:
+            await message.reply(answer)
+        except:
+            print("Model response:", ret)
 
     #the archivist shows off with his abilities
     if "/help" in message.content:
