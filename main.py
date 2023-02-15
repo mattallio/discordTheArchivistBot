@@ -2,6 +2,8 @@ import discord
 import random
 import time
 import os
+import json
+import requests
 import schedule
 import pandas as pd
 from threading import Thread
@@ -206,6 +208,7 @@ async def on_message(message):
     if "/avatar of the whore" in message.content:
         await jurgenRant(message, "jurgein leitner")
 
+    #the archivist spits hate towards a specific target
     if "/obliterate" in message.content:
         victimList = (message.content).split(" ")
         victimList = victimList[(victimList.index("/obliterate")+1):]
@@ -217,6 +220,19 @@ async def on_message(message):
                 victim += " " + name
         if victim != "":
             await jurgenRant(message, victim)
+
+    #the archivist connects to a huggingface model and generates an answer to the message
+    if "ARCHIVIST" in message.content.upper():
+        url = 'https://api-inference.huggingface.co/models/mattallio/Archivist-medium-dialoGPT'
+        huggingToken = os.getenv['HUGGINGFACE_TOKEN']
+        headers = {
+            'Authorization': 'Bearer {}'.format(huggingToken)
+        }
+        data = json.dumps(message.content)
+        res = requests.request('POST', url, headers=headers, data=data)
+        ret = json.loads(res.content.decode('UTF-8'))
+        answer = ret.get('generated_text', None)
+        await message.reply(answer)
 
     #the archivist shows off with his abilities
     if "/help" in message.content:
