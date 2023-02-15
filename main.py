@@ -228,7 +228,11 @@ async def on_message(message):
         headers = {
             'Authorization': 'Bearer {}'.format(huggingToken)
         }
-        data = json.dumps(message.content)
+        payload = {
+        "inputs": message.content,
+        "options": {"wait_for_model":True}
+        }
+        data = json.dumps(payload)
         res = requests.request('POST', url, headers=headers, data=data)
         ret = json.loads(res.content.decode('UTF-8'))
         answer = ret.get('generated_text', None)
