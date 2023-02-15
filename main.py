@@ -58,10 +58,6 @@ def checkSticker(message, type):
         words = stickerNumber.Words
     stickerNum = 1
     for word in words:
-        if type=="titles" and message[1:] in word:
-            del stickerNumber
-            del words
-            return stickerNum
         for wordMessage in message.split():
             if len(wordMessage)>3 and wordMessage.upper() in word.split():
                 del stickerNumber
