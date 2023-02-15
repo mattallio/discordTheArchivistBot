@@ -12,3 +12,5 @@ The Archivist will not allow swearing in his institute, try at your own risk
 Sometimes the Archivist will recognise a word that's in a sticker and will send the relative sticker
 
 If you type "/" followed by a word that's also a sticker, The Archivist will send the relative sticker
+
+If the Archivsit feels like you're addressing him (ex. "Archivist how are you today?") he will try to answer
