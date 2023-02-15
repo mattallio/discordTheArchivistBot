@@ -15,7 +15,7 @@ client = discord.Client(intents=intents)
 
 #opens the sticker file
 stickerNumber = pd.read_excel(r"Stickers/0-sticker-to-number.xlsx")
-words = stickerNumber.Titles
+words = stickerNumber.Words
 #list of all the smites used by the archivist
 smites = [["Ceaseless Watcher!", "See this lie, this golden strand of falsehood", "Take it in your gaze and pull it, follow through its curves and twists and knots as it unravels all before you", " Unweave it now, its fear and its falsehood, its hidden teeth and the ones it wears so proudly", "Take all that it is and all that it has", "It", "Is", "Yours"],
 ["Ceaseless Watcher!", "Turn your gaze upon this wretched thing"], ["Ceaseless Watcher!", "Turn your gaze upon this thing and drink", "Your", "Fill"], 
