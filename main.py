@@ -282,7 +282,7 @@ async def on_message(message):
     swearsFile = open("swears.txt", "r")
     swears = (swearsFile.read()).split("\n")
     swearsFile.close()
-    for word in re.findall(r"\w+|[^\w\s]", message, re.UNICODE):
+    for word in re.findall(r"\w+|[^\w\s]", message.content, re.UNICODE):
         for swear in swears:    
             if word.lower() == swear:
                 jurgens[message.author.id][0] += 1
