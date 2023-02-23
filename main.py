@@ -1,6 +1,7 @@
 import discord
 import random
 import time
+import re
 import os
 import json
 import requests
@@ -281,9 +282,9 @@ async def on_message(message):
     swearsFile = open("swears.txt", "r")
     swears = (swearsFile.read()).split("\n")
     swearsFile.close()
-    for word in message.content.split():
+    for word in re.findall(r"\w+|[^\w\s]", message, re.UNICODE):
         for swear in swears:    
-            if word.lower() == swear or (len(word) > len(swear) and swear in word.lower()):
+            if word.lower() == swear:
                 jurgens[message.author.id][0] += 1
                 if jurgens[message.author.id][0] == SWEARSMAX:
                     await message.author.edit(nick = "Jurgen Leitner")
